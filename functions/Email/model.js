@@ -1,5 +1,6 @@
 const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey("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")
+const credentials = require('../config/credentials.json')
+sgMail.setApiKey(credentials.sendGridApiKey)
 class InboxModel {
   constructor(user) {
     this.actionPerformer = user;
@@ -10,16 +11,15 @@ class InboxModel {
       from: 'noreply <noreply@flairtechno.com',
       fromEmail: 'noreply@flairtechno.com',
       replyTo: 'noreply@flairtechno.com',
-  }
+    }
     return new Promise((resolve, reject) => {
       console.log(
-        `SENDING EMAIL TO: ${
-          "to -->" +
-          to.join(",") +
-          "\n cc --> " +
-          cc.join(",") +
-          "\n bcc --> " +
-          bcc.join(",")
+        `SENDING EMAIL TO: ${"to -->" +
+        to.join(",") +
+        "\n cc --> " +
+        cc.join(",") +
+        "\n bcc --> " +
+        bcc.join(",")
         }`
       );
       const message = {
@@ -48,10 +48,20 @@ class InboxModel {
       };
       // console.log(message)
       sgMail
-   .send(message)
- .then(() => {
-          console.log("Email sent");
-          return resolve(true);
+        .send(message)
+        .then(() => {
+          console.log(
+            `EMAIL SEND TO: ${"to -->" +
+            to.join(",") +
+            "\n cc --> " +
+            cc.join(",") +
+            "\n bcc --> " +
+            bcc.join(",")
+            }`
+          );
+          return resolve({
+            message: "Email sent"
+          });
         })
         .catch((error) => {
           console.error(error.response.body);

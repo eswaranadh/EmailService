@@ -21,7 +21,7 @@ router.post("/sendEmail", (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).json({ message: "Failed to fetch employee" });
+      return res.status(500).json({ message: "Failed to send email" });
     });
 });
 
